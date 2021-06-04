@@ -1,5 +1,13 @@
 ﻿#include<iostream>
+#include<string>
+#include<regex>
 using namespace std;
+
+#define academy
+#define Regex_name
+#define Regex_gmail
+#define Regex_name
+#define delimiter "\n---------------------------------------------------------\n"
 
 class Human
 {
@@ -48,6 +56,12 @@ public:
 	}
 };
 
+ostream& operator<<(ostream& os, Human& obj)
+{
+	os << "First name:\t" << obj.get_first_name() << endl << "Last name:\t" << obj.get_last_name()<<endl << "Old:\t\t" << obj.get_old() <<endl;
+	return os;
+}
+
 class student :public Human
 {
 	string specility;
@@ -90,6 +104,12 @@ public:
 	}
 };
 
+ostream& operator<<(ostream& os, student& obj)
+{
+	os << "First name:\t" << obj.get_first_name() << endl << "Last name:\t" << obj.get_last_name() << endl;
+	os << "Old:\t\t" << obj.get_old() << endl << "Speciality:\t" << obj.get_specility() << endl << "Group:\t\t" << obj.get_group() << endl;
+	return os;
+}
 class Teacher :public Human
 {
 private:
@@ -131,6 +151,14 @@ public:
 	}
 };
 
+ostream& operator<<(ostream& os, Teacher& obj) 
+{
+	os << "First name:\t" << obj.get_first_name() << endl << "Last name:\t" << obj.get_last_name() << endl;
+	os << "Old:\t\t" << obj.get_old() << endl;
+	os << "Experiance:\t" << obj.get_experiance() << endl << "Speciality:\t" << obj.get_speciality() << endl;
+	return os;
+}
+
 class Graduate :public Human
 {
 private:
@@ -164,17 +192,116 @@ public:
 	}
 };
 
+ostream& operator<<(ostream& os, Graduate& obj)
+{
+	os << "First name:\t" << obj.get_first_name() << endl << "Last name:\t" << obj.get_last_name() << endl;
+	os << "Old:\t\t" << obj.get_old()<<endl << "Project name:\t" << obj.get_project_name() << endl;
+	return os;
+}
+
 void main()
 {
 	setlocale(LC_ALL, "russian");
-	Human Kudratov("Kudratov", "Shahzod", 21);
-	Kudratov.info();
-	student Aralov("Aralov", "Yo'lchi", 22, "geodezist", "SBD_011");
-	Aralov.info();
-	Teacher Berkinov("Berkinov", "Abdusodiq", 23, 5, "developer");
-	Berkinov.info();
-	Graduate Alimov("Alimov", "Shamil", 28, "Computer science");
-	Alimov.info();
+
+#ifdef academy
+	Human kudratov("kudratov", "shahzod", 21);
+	//kudratov.info();
+	cout << kudratov << endl;
+	student aralov("aralov", "yo'lchi", 22, "geodezist", "sbd_011");
+	////aralov.info();
+	cout << aralov << endl;
+	Teacher berkinov("berkinov", "abdusodiq", 23, 5, "developer");
+	cout << berkinov << endl;
+	//berkinov.info();
+	Graduate alimov("alimov", "shamil", 28, "computer science");
+	cout << alimov << endl;
+	//alimov.info();  
+#endif academy
+	cout << delimiter;
+	Human* p_teacher = &berkinov;
+	Human* p_student = &aralov;
+	Human* p_alimov = &alimov;
+	Human* group[] =
+	{
+		new Teacher("berkinov", "abdusodiq", 23, 5, "developer"),
+		new Graduate("alimov", "shamil", 28, "computer science"),
+		new student("aralov", "yo'lchi", 22, "geodezist", "sbd_011"),
+		new student("tursunov", "feruz", 24, "perevodchik", "sg_012")
+	};
+
+	for (int i = 0; i < sizeof(group) / sizeof(Human*); i++)
+	{
+		cout << *group[i] << endl;
+	}
+
+#ifdef Regex_name
+	regex name_template("[A-Z][a-z]{1,30}");
+	string name;
+	cout << "Введите имя: "; cin >> name;
+	//regex_match(наша строка, регулярное выражние, шаблон проверки);
+	cout << regex_match(name.c_str(), name_template, std::regex_constants::match_any);
+	cout << endl;
+#endif // Regex_name
+
+#ifdef Regex_gmail
+	regex rgx("[A-za-z0-9]{3,15}@[A-Za-z]{3,8}.[a-z]{2,3}");
+	string gmail;
+	cout << "Enter the gmail:\t"; cin >> gmail;
+	cout << regex_match(gmail, rgx, std::regex_constants::match_any);
+#endif // Regex_gmail
+
 }
 
-//			https://github.com/shahzod20000901/OOP_CPP/tree/Fraction_separation/Intro/overloading%20operators
+////1. В проекте Academy для всех классов перегрузить оператор вывода(<< ) и вывести группу на экран с его использованием;
+//for (int i = 0; i < sizeof(group) / sizeof(Human*); i++)
+//{
+//	cout << *group[i] << endl;
+//}
+//2. Построить иерархию объектов игры GTA;
+
+/*https://github.com/okovtun/SPD_011
+https://www.youtube.com/watch?v=yPB-sWkSuLE&list=PLeqyOOqxeiINLry6Ho7Xa0xBGZ-YwSsal
+
+MATH:
+https://drive.google.com/drive/folders/1PtH0LBlm7PpmBcaE6mwBnkftAcEui32y?usp=sharing
+
+Regex:
+https://www.cplusplus.com/reference/regex/
+https://www.cplusplus.com/reference/regex/ECMAScript/
+https://www.cplusplus.com/reference/regex/regex_match/
+
+Assembler:
+https://drive.google.com/drive/folders/1mIhAKMp5-Jpy6s5X8u924tRCXFEdHE_z?usp=sharing
+
+TODO:
+1. В проекте Academy для всех классов перегрузить оператор вывода (<<) и вывести группу на экран с его использованием;
+	for (int i = 0; i < sizeof(group)/sizeof(Human*); i++)
+	{
+		cout << *group[i] << endl;
+	}
+2. Построить иерархию объектов игры GTA;*/
+
+
+/*
+TODO:
+В класс ForwardList добавить методы:
+1. void erase(int index);		//Удаляет значение по заданному индексу
+2. Написать деструктор таким образом, чтобы он очищал список (удалял из него све элементы) перед удалением;
+3. Оптимировать методы удаления элементов;
+4. CopyMethods
+5. MoveMethods
+6. Обеспечить создание списка следующим образом:
+	ForwardList list = { 3, 5, 8, 13, 21 };
+
+
+MATH:
+https://drive.google.com/drive/folders/1PtH0LBlm7PpmBcaE6mwBnkftAcEui32y?usp=sharing
+
+Regex:
+https://www.cplusplus.com/reference/regex/
+https://www.cplusplus.com/reference/regex/ECMAScript/
+https://www.cplusplus.com/reference/regex/regex_match/
+
+Assembler:
+https://drive.google.com/drive/folders/1mIhAKMp5-Jpy6s5X8u924tRCXFEdHE_z?usp=sharing
+*/
